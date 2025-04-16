@@ -24,6 +24,13 @@ const AdminDashboard = () => {
         >
           🗳️ Create Election
         </Link>
+
+        <Link
+          to="/results"
+          className="block bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded"
+        >
+          📊 View Results
+        </Link>
       </div>
     </div>
   );

@@ -1,10 +1,14 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, current_app
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from ..controllers.admin_controller import create_election_controller, get_status_controller, get_single_election_controller, get_all_elections_controller
-from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
-
-from app.controllers.admin_controller import add_candidate_controller
+from ..controllers.admin_controller import (
+    create_election_controller,
+    get_status_controller,
+    get_single_election_controller,
+    get_all_elections_controller,
+    add_candidate_controller
+)
 from app.utils.jwt_utils import admin_required
+from bson import ObjectId
 
 admin_bp = Blueprint('admin', __name__)
 
@@ -40,3 +44,21 @@ def get_single_election(election_id):
 @jwt_required()
 def get_all_elections():
     return get_all_elections_controller()
+
+# ✅ NEW: Get all candidates
+@admin_bp.route('/candidates', methods=['GET'])
+@jwt_required()
+@admin_required
+def get_all_candidates():
+    db = current_app.config["MONGO_DB"]
+    candidates = list(db.users.find({"role": "candidate"}))
+
+    result = [
+        {
+            "candidate_id": str(c["_id"]),
+            "name": c["name"],
+            "email": c["email"]
+        } for c in candidates
+    ]
+
+    return jsonify(result), 200

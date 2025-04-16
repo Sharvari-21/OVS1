@@ -4,41 +4,6 @@ from flask_jwt_extended import create_access_token, get_jwt_identity
 from datetime import timedelta
 from bson import ObjectId
 
-# def signup_controller(data):
-#     db = current_app.config["MONGO_DB"]
-
-#     if not data.get('email') or not data.get('password'):
-#         return jsonify({"error": "Email and password required"}), 400
-
-#     existing = db.voters.find_one({"email": data['email']})
-#     if existing:
-#         return jsonify({"error": "Email already registered"}), 409
-
-#     hashed_password = generate_password_hash(data['password'])
-#     db.voters.insert_one({
-#         "email": data['email'],
-#         "password": hashed_password,
-#         "voted": False
-#     })
-
-#     return jsonify({"message": "Voter registered successfully"}), 201
-
-
-# def login_controller(data):
-#     db = current_app.config["MONGO_DB"]
-
-#     voter = db.voters.find_one({"email": data.get('email')})
-#     if not voter or not check_password_hash(voter['password'], data.get('password')):
-#         return jsonify({"error": "Invalid email or password"}), 401
-
-#     # ✅ Use string identity (email) and put role in additional_claims
-#     access_token = create_access_token(
-#         identity=str(voter['email']),  # ensures it's a string
-#         additional_claims={"role": "voter"},
-#         expires_delta=timedelta(hours=1)
-#     )
-
-#     return jsonify({"token": access_token}), 200
 
 def vote_controller(data):
     db = current_app.config["MONGO_DB"]

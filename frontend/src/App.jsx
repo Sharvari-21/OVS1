@@ -7,7 +7,10 @@ import Login from "./pages/auth/Login";
 import AdminDashboard from "./pages/admin/Dashboard";
 import VoterDashboard from "./pages/voter/Dashboard";
 import AddCandidate from "./pages/admin/AddCandidate";
-// import CreateElection from "./pages/admin/CreateElection";
+import CreateElection from "./pages/admin/CreateElection";
+import Vote from "./pages/voter/Vote"; // ✅ NEW
+import Results from "./pages/Results";
+
 import { AuthContext } from "./context/AuthContext";
 
 function App() {
@@ -47,16 +50,16 @@ function App() {
           </RequireAuth>
         }
       />
-      {/* <Route
+      <Route
         path="/admin/create-election"
         element={
           <RequireAuth role="admin">
             <CreateElection />
           </RequireAuth>
         }
-      /> */}
+      />
 
-      {/* ✅ Voter Protected Route */}
+      {/* ✅ Voter Protected Routes */}
       <Route
         path="/voter/dashboard"
         element={
@@ -65,6 +68,23 @@ function App() {
           </RequireAuth>
         }
       />
+      <Route
+        path="/voter/vote/:electionId"
+        element={
+          <RequireAuth role="voter">
+            <Vote />
+          </RequireAuth>
+        }
+      />
+
+      <Route
+       path="/results"
+      element={
+      <RequireAuth>
+      <Results />
+      </RequireAuth>
+  }
+/>
 
       {/* ✅ Fallback */}
       <Route path="*" element={<Navigate to="/" replace />} />

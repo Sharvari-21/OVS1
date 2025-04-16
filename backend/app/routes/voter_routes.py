@@ -4,20 +4,6 @@ from ..controllers.voter_controller import vote_controller, get_all_elections_co
 
 voter_bp = Blueprint('voter', __name__)
 
-# @voter_bp.route('/signup', methods=['POST'])
-# def signup():
-#     data = request.get_json()
-#     if not data:
-#         return jsonify({"msg": "Missing JSON in request"}), 400
-#     return signup_controller(data)
-
-# @voter_bp.route('/login', methods=['POST'])
-# def login():
-#     data = request.get_json()
-#     if not data:
-#         return jsonify({"msg": "Missing JSON in request"}), 400
-#     return login_controller(data)
-
 @voter_bp.route('/vote', methods=['POST'])
 @jwt_required()
 def vote():
