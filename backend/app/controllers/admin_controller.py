@@ -94,18 +94,36 @@ def get_single_election_controller(election_id):
     db = current_app.config["MONGO_DB"]
 
     try:
+        # Fetch the election using the election_id
         election = db.elections.find_one({"_id": ObjectId(election_id)})
         if not election:
             return jsonify({"error": "Election not found"}), 404
+        
+        print(election)
 
+        # List to store enriched candidate information
         enriched_candidates = []
+
+        # Iterate over each candidate in the election's 'candidates' list
         for candidate in election.get("candidates", []):
-            user = db.users.find_one({"_id": ObjectId(candidate["candidate_id"])})
-            if user:
+            print(candidate)
+            # Check if candidate_id is an ObjectId or string (depending on your data)
+            candidate_id = candidate["candidate_id"]
+            print(candidate_id)
+            
+            
+            # If candidate_id is a string, don't convert it to ObjectId
+            # Otherwise, convert it to ObjectId for the query
+            # if isinstance(candidate_id, str):
+            #     user = db.users.find_one({"_id": candidate_id})  # query by string ID
+            # else:
+            #     user = db.users.find_one({"_id": ObjectId(candidate_id)})  # query by ObjectId
+            # print(user)
+            if candidate:
                 enriched_candidates.append({
                     "candidate_id": str(candidate["candidate_id"]),
-                    "name": user.get("name"),
-                    "email": user.get("email"),
+                    "name": str(candidate["name"]),
+                    # "email": user.get("email"),
                     "votes": candidate.get("votes", 0)
                 })
 
@@ -117,7 +135,6 @@ def get_single_election_controller(election_id):
 
     except Exception as e:
         return jsonify({"error": "Invalid Election ID"}), 400
-    
 
 def get_all_elections_controller():
     db = current_app.config["MONGO_DB"]

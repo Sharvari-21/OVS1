@@ -8,8 +8,11 @@ import AdminDashboard from "./pages/admin/Dashboard";
 import VoterDashboard from "./pages/voter/Dashboard";
 import AddCandidate from "./pages/admin/AddCandidate";
 import CreateElection from "./pages/admin/CreateElection";
-import Vote from "./pages/voter/Vote"; // ✅ NEW
-import Results from "./pages/Results";
+import Vote from "./pages/voter/Vote";
+
+// 🆕 New Admin Result Components
+import ElectionResults from "./pages/admin/ElectionResults";
+import ElectionDetail from "./pages/admin/ElectionDetail";
 
 import { AuthContext } from "./context/AuthContext";
 
@@ -58,6 +61,22 @@ function App() {
           </RequireAuth>
         }
       />
+      <Route
+        path="/results"
+        element={
+          <RequireAuth role="admin">
+            <ElectionResults />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/results/:electionId"
+        element={
+          <RequireAuth role="admin">
+            <ElectionDetail />
+          </RequireAuth>
+        }
+      />
 
       {/* ✅ Voter Protected Routes */}
       <Route
@@ -76,15 +95,6 @@ function App() {
           </RequireAuth>
         }
       />
-
-      <Route
-       path="/results"
-      element={
-      <RequireAuth>
-      <Results />
-      </RequireAuth>
-  }
-/>
 
       {/* ✅ Fallback */}
       <Route path="*" element={<Navigate to="/" replace />} />

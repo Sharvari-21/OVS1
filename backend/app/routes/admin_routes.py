@@ -36,12 +36,10 @@ def add_candidate():
     return add_candidate_controller(data)
 
 @admin_bp.route('/election/<election_id>', methods=['GET'])
-@jwt_required()
 def get_single_election(election_id):
     return get_single_election_controller(election_id)
 
 @admin_bp.route('/elections', methods=['GET'])
-@jwt_required()
 def get_all_elections():
     return get_all_elections_controller()
 
