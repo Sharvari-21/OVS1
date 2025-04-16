@@ -1,10 +1,13 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import Home from "./pages/Home";
-import Signup from "./pages/auth/Signup";
-import Login from "./pages/auth/Login";
-import AdminDashboard from "./pages/admin/Dashboard";
-import VoterDashboard from "./pages/voter/Dashboard";
 import { useContext, useEffect } from "react";
+
+import {Home} from "./pages/Home";
+import {Signup} from "./pages/auth/Signup";
+import {Login} from "./pages/auth/Login";
+import {AdminDashboard} from "./pages/admin/Dashboard";
+import {VoterDashboard} from "./pages/voter/Dashboard";
+import {AddCandidate} from "./pages/admin/AddCandidate";
+import {CreateElection} from "./pages/admin/CreateElection";
 import { AuthContext } from "./context/AuthContext";
 
 function App() {
@@ -15,31 +18,55 @@ function App() {
     console.log("🧑‍💻 User Context:", user);
   }, [user]);
 
+  const RequireAuth = ({ children, role }) => {
+    if (!user) return <Navigate to="/login" replace />;
+    if (role && user.role !== role) return <Navigate to="/login" replace />;
+    return children;
+  };
+
   return (
     <Routes>
-      <Route path="/" element={<Home/>} />
-      <Route path="/signup" element={<Signup/>} />
-      <Route path="/login" element={<Login/>} />
+      <Route path="/" element={<Home />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/login" element={<Login />} />
+
+      {/* ✅ Admin Protected Routes */}
       <Route
-        path="/admin"
+        path="/admin/dashboard"
         element={
-          user?.role === "admin" ? (
+          <RequireAuth role="admin">
             <AdminDashboard />
-          ) : (
-            <Navigate to="/login" replace />
-          )
+          </RequireAuth>
         }
       />
       <Route
-        path="/voter"
+        path="/admin/add-candidate"
         element={
-          user?.role === "voter" ? (
-            <VoterDashboard />
-          ) : (
-            <Navigate to="/login" replace />
-          )
+          <RequireAuth role="admin">
+            <AddCandidate />
+          </RequireAuth>
         }
       />
+      <Route
+        path="/admin/create-election"
+        element={
+          <RequireAuth role="admin">
+            <CreateElection />
+          </RequireAuth>
+        }
+      />
+
+      {/* ✅ Voter Protected Route */}
+      <Route
+        path="/voter/dashboard"
+        element={
+          <RequireAuth role="voter">
+            <VoterDashboard />
+          </RequireAuth>
+        }
+      />
+
+      {/* ✅ Fallback */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from "react";
-import { jwtDecode } from "jwt-decode"; // ✅ Fixed import
+import { jwtDecode } from "jwt-decode";
 
 export const AuthContext = createContext();
 
@@ -7,28 +7,27 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    console.log("🔍 Checking token in localStorage:", token);
-
-    if (token) {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
       try {
-        const decoded = jwtDecode(token);
-        console.log("✅ Decoded token on mount:", decoded);
-        setUser({ ...decoded, token });
+        const parsed = JSON.parse(storedUser);
+        const decoded = jwtDecode(parsed.token);
+        console.log("✅ Decoded user on mount:", decoded);
+        setUser({ ...decoded, token: parsed.token });
       } catch (error) {
-        console.error("❌ Failed to decode token:", error);
-        localStorage.removeItem("token");
+        console.error("❌ Invalid token found in storage:", error);
+        localStorage.removeItem("user");
       }
     }
   }, []);
 
-  const login = (token) => {
-    console.log("🔐 Logging in with token:", token);
-    localStorage.setItem("token", token);
+  const login = (token, role) => {
     try {
       const decoded = jwtDecode(token);
-      console.log("✅ Token decoded after login:", decoded);
-      setUser({ ...decoded, token });
+      const newUser = { ...decoded, role, token };
+      localStorage.setItem("user", JSON.stringify(newUser));
+      setUser(newUser);
+      console.log("✅ User set after login:", newUser);
     } catch (error) {
       console.error("❌ Failed to decode token during login:", error);
     }
@@ -36,7 +35,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     console.log("🚪 Logging out");
-    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setUser(null);
   };
 

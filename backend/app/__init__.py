@@ -3,7 +3,9 @@ from pymongo import MongoClient
 from flask_jwt_extended import JWTManager
 from dotenv import load_dotenv
 import os
-from datetime import datetime, timedelta
+from datetime import datetime
+from flask_cors import CORS
+from flask_bcrypt import Bcrypt
 
 load_dotenv()
 
@@ -11,6 +13,8 @@ jwt = JWTManager()
 
 def create_app():
     app = Flask(__name__)
+
+    CORS(app)
 
     # ✅ MongoDB Configuration
     mongo_uri = os.getenv("MONGO_URI")

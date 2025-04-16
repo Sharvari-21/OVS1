@@ -13,16 +13,20 @@ const Signup = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
+      // ✅ Updated endpoint to match /user prefix
       const endpoint =
-        role === "admin" ? "/admin/create" : "/voter/signup";
+        role === "admin" ? "/user/admin/create" : "/user/voter/signup";
 
-      await axios.post(
+      const response = await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}${endpoint}`,
-        { email, password }
+        { email, password },
+        { headers: { "Content-Type": "application/json" } }
       );
 
+      console.log("✅ Signup successful:", response.data);
       navigate("/login");
     } catch (err) {
+      console.error("❌ Signup failed:", err.response?.data || err.message);
       setError(err.response?.data?.error || "Something went wrong");
     }
   };
