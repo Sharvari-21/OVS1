@@ -1,13 +1,13 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useContext, useEffect } from "react";
 
-import {Home} from "./pages/Home";
-import {Signup} from "./pages/auth/Signup";
-import {Login} from "./pages/auth/Login";
-import {AdminDashboard} from "./pages/admin/Dashboard";
-import {VoterDashboard} from "./pages/voter/Dashboard";
-import {AddCandidate} from "./pages/admin/AddCandidate";
-import {CreateElection} from "./pages/admin/CreateElection";
+import Home from "./pages/Home";
+import Signup from "./pages/auth/Signup";
+import Login from "./pages/auth/Login";
+import AdminDashboard from "./pages/admin/Dashboard";
+import VoterDashboard from "./pages/voter/Dashboard";
+import AddCandidate from "./pages/admin/AddCandidate";
+// import CreateElection from "./pages/admin/CreateElection";
 import { AuthContext } from "./context/AuthContext";
 
 function App() {
@@ -47,14 +47,14 @@ function App() {
           </RequireAuth>
         }
       />
-      <Route
+      {/* <Route
         path="/admin/create-election"
         element={
           <RequireAuth role="admin">
             <CreateElection />
           </RequireAuth>
         }
-      />
+      /> */}
 
       {/* ✅ Voter Protected Route */}
       <Route
