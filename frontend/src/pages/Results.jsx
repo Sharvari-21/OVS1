@@ -32,44 +32,54 @@ const Results = () => {
 
   if (error)
     return (
-      <div className="p-6 text-red-500 text-center">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 via-white to-gray-200 text-red-500 text-center">
         <p>{error}</p>
       </div>
     );
 
   if (!results)
     return (
-      <div className="p-6 text-center">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 via-white to-gray-200 text-gray-600">
         <p>Loading election results...</p>
       </div>
     );
 
   if (results.message === "No votes cast yet") {
     return (
-      <div className="p-6 text-center text-gray-700">
-        <h2 className="text-xl font-semibold mb-2">Election Results</h2>
-        <p>{results.message}</p>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 via-white to-gray-200 text-gray-700">
+        <div className="bg-white/30 backdrop-blur-md p-8 rounded-2xl shadow-xl border border-white/40 text-center">
+          <h2 className="text-2xl font-bold mb-2">Election Results</h2>
+          <p>{results.message}</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="p-6 max-w-3xl mx-auto">
-      <h2 className="text-2xl font-bold mb-6">Election Results</h2>
-      <p className="mb-4 text-gray-600">Total Votes: {results.total_votes}</p>
+    <div className="min-h-screen bg-gradient-to-br from-gray-100 via-white to-gray-200 p-6 flex justify-center">
+      <div className="w-full max-w-3xl bg-white/30 backdrop-blur-md rounded-2xl shadow-xl border border-white/40 p-8">
+        <h2 className="text-3xl font-bold text-gray-800 mb-4">
+          🗳️ Election Results
+        </h2>
+        <p className="text-gray-600 mb-6 text-sm">
+          Total Votes Cast: <span className="font-semibold">{results.total_votes}</span>
+        </p>
 
-      <div className="space-y-4">
-        {Object.entries(results.percentage_results).map(
-          ([candidateId, percent]) => (
-            <div
-              key={candidateId}
-              className="p-4 bg-white shadow rounded border border-gray-200"
-            >
-              <p className="font-semibold">Candidate ID: {candidateId}</p>
-              <p className="text-blue-600 font-bold">{percent}% votes</p>
-            </div>
-          )
-        )}
+        <div className="space-y-4">
+          {Object.entries(results.percentage_results).map(
+            ([candidateId, percent]) => (
+              <div
+                key={candidateId}
+                className="transition-all bg-white/40 backdrop-blur-md border border-white/60 shadow-md rounded-xl px-6 py-4 hover:rounded-full hover:shadow-lg"
+              >
+                <p className="font-semibold text-gray-800 mb-1">
+                  Candidate ID: {candidateId}
+                </p>
+                <p className="text-blue-600 font-bold">{percent}% votes</p>
+              </div>
+            )
+          )}
+        </div>
       </div>
     </div>
   );

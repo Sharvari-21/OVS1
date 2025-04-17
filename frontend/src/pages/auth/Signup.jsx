@@ -1,4 +1,3 @@
-// src/pages/auth/Signup.jsx
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -6,14 +5,13 @@ import { useNavigate } from "react-router-dom";
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("voter"); // default role
+  const [role, setRole] = useState("voter");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      // ✅ Updated endpoint to match /user prefix
       const endpoint =
         role === "admin" ? "/user/admin/create" : "/user/voter/signup";
 
@@ -32,18 +30,20 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div className="min-h-screen min-w-screen bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center px-4">
       <form
         onSubmit={handleSignup}
-        className="bg-white p-8 rounded shadow-md w-full max-w-md"
+        className="w-full max-w-md bg-white/10 backdrop-blur-lg text-white p-8 rounded-2xl shadow-2xl"
       >
-        <h2 className="text-2xl font-semibold mb-4">Sign Up</h2>
+        <h2 className="text-3xl font-extrabold text-center mb-6">Sign Up</h2>
 
-        {error && <p className="text-red-500 mb-4">{error}</p>}
+        {error && (
+          <p className="text-red-400 text-center mb-4 font-medium">{error}</p>
+        )}
 
-        <label className="block mb-2 text-sm font-medium">Role</label>
+        <label className="block mb-1 text-sm font-medium">Role</label>
         <select
-          className="w-full p-2 border rounded mb-4"
+          className="w-full px-4 py-3 mb-4 rounded-xl bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300"
           value={role}
           onChange={(e) => setRole(e.target.value)}
         >
@@ -53,25 +53,25 @@ const Signup = () => {
 
         <input
           type="email"
-          className="w-full p-2 border rounded mb-4"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          className="w-full px-4 py-3 mb-4 rounded-xl bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300"
         />
 
         <input
           type="password"
-          className="w-full p-2 border rounded mb-4"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
+          className="w-full px-4 py-3 mb-6 rounded-xl bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300"
         />
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
+          className="w-full bg-blue-600 hover:bg-blue-500 px-6 py-3 rounded-lg hover:rounded-full transition-all duration-300 text-black font-medium shadow-md"
         >
           Sign Up
         </button>

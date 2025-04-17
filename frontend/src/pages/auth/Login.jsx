@@ -1,9 +1,8 @@
-import { useState, useContext } from "react";
+import { useState, useContext } from "react"; 
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { jwtDecode } from "jwt-decode";
-
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -26,9 +25,9 @@ const Login = () => {
       );
 
       const token = response.data.access_token;
-      const decoded = jwtDecode(token); // Decode to extract role info
+      const decoded = jwtDecode(token);
 
-      login(token, decoded.role); // ✅ Save token + role to context
+      login(token, decoded.role);
       console.log("✅ Login successful:", decoded);
 
       if (decoded.role === "admin") {
@@ -45,18 +44,20 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div className="min-h-screen min-w-screen bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center px-4">
       <form
         onSubmit={handleLogin}
-        className="bg-white p-8 rounded shadow-md w-full max-w-md"
+        className="w-full max-w-md bg-white/10 backdrop-blur-lg text-white p-8 rounded-2xl shadow-2xl"
       >
-        <h2 className="text-2xl font-semibold mb-4">Log In</h2>
+        <h2 className="text-3xl font-extrabold text-center mb-6">Login</h2>
 
-        {error && <p className="text-red-500 mb-4">{error}</p>}
+        {error && (
+          <p className="text-red-400 text-center mb-4 font-medium">{error}</p>
+        )}
 
-        <label className="block mb-2 text-sm font-medium">Role</label>
+        <label className="block mb-1 text-sm font-medium">Role</label>
         <select
-          className="w-full p-2 border rounded mb-4"
+          className="w-full px-4 py-3 mb-4 rounded-xl bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300"
           value={role}
           onChange={(e) => setRole(e.target.value)}
         >
@@ -66,25 +67,25 @@ const Login = () => {
 
         <input
           type="email"
-          className="w-full p-2 border rounded mb-4"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          className="w-full px-4 py-3 mb-4 rounded-xl bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300"
         />
 
         <input
           type="password"
-          className="w-full p-2 border rounded mb-4"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
+          className="w-full px-4 py-3 mb-6 rounded-xl bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300"
         />
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
+          className="w-full bg-blue-600 hover:bg-blue-500 px-6 py-3 rounded-lg hover:rounded-full transition-all duration-300 text-black font-medium shadow-md"
         >
           Log In
         </button>
