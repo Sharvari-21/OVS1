@@ -1,17 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
 
 const ElectionResults = () => {
+  const { user } = useContext(AuthContext);
   const [elections, setElections] = useState([]);
 
   useEffect(() => {
     const fetchElections = async () => {
       try {
-        const token = localStorage.getItem("token");
+        // const token = localStorage.getItem("token");
         const res = await axios.get("http://localhost:5000/admin/elections", {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${user.token}`,
+            "Content-Type": "application/json",
           },
         });
         setElections(res.data);

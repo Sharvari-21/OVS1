@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useC } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
 
 function ElectionDetail() {
+  const { user } = useContext(AuthContext);
   const { electionId } = useParams();
   const navigate = useNavigate();
   const [election, setElection] = useState(null);
@@ -10,10 +12,11 @@ function ElectionDetail() {
 
   const fetchElection = async () => {
     try {
-      const token = localStorage.getItem("token");
+      // const token = localStorage.getItem("token");
       const res = await axios.get(`http://localhost:5000/admin/election/${electionId}`, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${user.token}`,
+          "Content-Type": "application/json",
         },
       });
       setElection(res.data);
