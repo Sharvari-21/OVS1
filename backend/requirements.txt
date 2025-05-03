@@ -3,3 +3,4 @@ pymongo
 flask-bcrypt
 Flask-JWT-Extended
 dnspython
+python-dotenv
