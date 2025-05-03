@@ -1,0 +1,5 @@
+Flask
+pymongo
+flask-bcrypt
+Flask-JWT-Extended
+dnspython
