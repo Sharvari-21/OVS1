@@ -14,7 +14,7 @@ jwt = JWTManager()
 def create_app():
     app = Flask(__name__)
 
-    CORS(app)
+    CORS(app, origins=["https://online-voting-system-frontend-tx18.onrender.com"])
 
     # ✅ MongoDB Configuration
     mongo_uri = os.getenv("MONGO_URI")
